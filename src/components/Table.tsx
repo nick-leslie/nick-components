@@ -1,11 +1,11 @@
 import {getValue, hasKey} from "../lib/utils.ts";
-import {createElement, isValidElement} from "react";
+import  {isValidElement} from "react";
 
 export default function Table<T extends object>(props:{data:T[]}) {
     function renderElement(dat:T,key:string) {
         if(hasKey(dat,key)) {
             const val = getValue(dat,key)
-            if(typeof val == "string" || typeof val == "number" || isValidElement(val)) {
+            if(typeof val === "string" || typeof val === "number" || isValidElement(val)) {
                 return (
                     <div key={key+val.toString()} className={"bg-gray-300 text-black px-5 py-2"}>
                         {
@@ -13,6 +13,7 @@ export default function Table<T extends object>(props:{data:T[]}) {
                         }
                     </div>
                 )
+                //TODO expand so it can handle nested objects some how
             } else {
                 return <div className={"bg-gray-300 text-black px-5 py-2"}>
                     not valid
@@ -40,19 +41,6 @@ export default function Table<T extends object>(props:{data:T[]}) {
                         )
                     })}
                 </div>
-                {/*{props.data.map((d) => {*/}
-                {/*    return (*/}
-                {/*        <div className={"flex flex-row"}>*/}
-                {/*            {Object.values(d).map((val) => {*/}
-                {/*                return(*/}
-                {/*                    <div className={"bg-gray-300 text-black px-5 py-2"}>*/}
-                {/*                        {val}*/}
-                {/*                    </div>*/}
-                {/*                )*/}
-                {/*            })}*/}
-                {/*        </div>*/}
-                {/*    )*/}
-                {/*})}*/}
             </div>
         )
     }
