@@ -8,6 +8,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        primaryBlue: "rgb(18,52,108)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

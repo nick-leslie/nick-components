@@ -20,6 +20,7 @@ import { Route as WhatsupLayoutGameingImport } from './routes/whatsup/_layout/ga
 
 const WhatsupImport = createFileRoute('/whatsup')()
 const TestLazyImport = createFileRoute('/test')()
+const ContextLazyImport = createFileRoute('/context')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
@@ -33,6 +34,11 @@ const TestLazyRoute = TestLazyImport.update({
   path: '/test',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/test.lazy').then((d) => d.Route))
+
+const ContextLazyRoute = ContextLazyImport.update({
+  path: '/context',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/context.lazy').then((d) => d.Route))
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
@@ -55,6 +61,10 @@ declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
       preLoaderRoute: typeof IndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/context': {
+      preLoaderRoute: typeof ContextLazyImport
       parentRoute: typeof rootRoute
     }
     '/test': {
@@ -80,6 +90,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
+  ContextLazyRoute,
   TestLazyRoute,
   WhatsupRoute.addChildren([
     WhatsupLayoutRoute.addChildren([WhatsupLayoutGameingRoute]),
